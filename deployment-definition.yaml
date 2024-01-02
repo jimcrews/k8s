@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp
+spec:
+  template:
+    metadata:
+      name: my-app-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+
+
+# commands
+
+# k get deployments
+# NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+# myapp-deployment   3/3     3            3           4s
+
+# k get rs
+# NAME                          DESIRED   CURRENT   READY   AGE
+# myapp-deployment-766d8d97bf   3         3         3       9s
+
+# delete
+# k delete deployment myapp-deployment

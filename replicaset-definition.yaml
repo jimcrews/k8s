@@ -1,0 +1,40 @@
+# Replicaset example (different from replication controller by adding selector)
+
+# k get rs
+
+# NAME               DESIRED   CURRENT   READY   AGE
+# myapp-replicaset   3         3         3       9s
+
+# delete
+# k delete rs myapp-replicaset
+
+# create the replca set
+# k create -f replicaset-definition.yaml
+
+# update the replica set based on changes to this config
+# k edit -f replicaset-definition.yaml
+
+# scale the replica set without modifying this config
+# k scale rs myapp-replicaset -replicas=6
+
+apiVersion: apps/v1 # this is different too
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+  labels:
+    app: myapp
+spec:
+  template:
+    metadata:
+      name: my-app-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 3 # update this to run the replace command to update replicas
+  selector:
+    matchLabels:
+      type: front-end

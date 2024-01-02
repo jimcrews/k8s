@@ -1,0 +1,27 @@
+# Replication Controller example
+# commands to get controller after created: k get replicationcontroller (or, k get rc)
+#
+# NAME       DESIRED   CURRENT   READY   AGE
+# myapp-rc   3         3         3       55s
+
+# Delete the pods and replication controller
+# k delete rc myapp-rc
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myapp-rc
+  labels:
+    app: myapp
+spec:
+  template:
+    metadata:
+      name: my-app-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 3
