@@ -56,6 +56,11 @@ kubectl edit pod <pod name>
 kubectl get pod webapp -o yaml > my-new-pod.yaml
 ```
 
+## Replace a pod using config
+```
+kubectl replace --force -f /tmp/kubectl-edit-19233122.yaml
+```
+
 ### Label a node
 ```
 k label node node01 color=blue
@@ -95,3 +100,103 @@ types of node affinity:
  'During Scheduling' is the state where a pod does not exist and is created for the first time. 'Required' = the scheduler will mandate the pod be placed on the correct node, otherwise the pod wont be scheduled. 'Preferred' is best effort. The pod will be place anywhere if no labael is found.
 
  'During Execution' is the state where the pod has been running and a change has been made that effects node affinity. 'Ignored' = no changes will be made.
+
+
+## Secrets
+```
+kubectl create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+kubectl create secret generic app-secret --from-file=app_secret.properties
+```
+
+
+## Cluster maintenance
+You can purposefully drain the node of all the workloads so that the workloads are moved to other nodes.
+The node is also cordoned or marked as unschedulable.
+
+```
+k drain node-1
+```
+
+When the node is back online after a maintenance, it is still unschedulable. You then need to uncordon it.
+```
+k uncordon node-1
+```
+
+There is also another command called cordon. Cordon simply marks a node unschedulable. Unlike drain it does not terminate or move the pods on an existing node.
+
+```
+k drain node-1
+k cordon node-2
+k uncordon node-1
+```
+
+## Upgrade Cluster process
+
+upgrade 1 version at a time
+get the current node versions
+```
+k get nodes
+```
+
+open docs (https://kubernetes.io/search/?q=upgrade) and click the upgrade link from current version to next version.
+
+what distro:
+```
+cat /etc/*release*
+```
+
+ - get the latest patch release in that minor version (eg 1.25.x-00 where x is the latest)
+ - upgrade kubeadm (kubeadm version)
+ - kubeadm upgrade plan
+ - ```kubeadm upgrade apply v1.25.10```
+ - ```kubectl get node```
+ - upgrade kubelet if required. drain the node. ```kubectl drain <node> --ignore-daemonsets```
+ - upgrade kubelet
+ - restart the service, and uncordon the node
+
+ - ssh to worker node 
+ - upgrade kubeadm
+ - ```kubeadm upgrade node```
+ - upgrade kubelet. drain the node. (run command on control plane)
+ - upgrade kubelet
+ - restart the service, and uncordon
+
+
+
+## ETCD
+
+To make use of etcdctl for tasks such as back up and restore, make sure that you set the ETCDCTL_API to 3.
+
+ 
+
+You can do this by exporting the variable ETCDCTL_API prior to using the etcdctl client. This can be done as follows:
+
+export ETCDCTL_API=3
+
+
+## config
+
+```kubectl config view```: Lists all clusters for which kubeconfig entries have been generated. This is helpful in verifying or troubleshooting your settings
+
+switch context to specific cluster name - ```kubectl config use-context cluster1```
+
+
+```
+student-node ~ ➜  kubectl config use-context cluster1
+Switched to context "cluster1".
+
+student-node ~ ➜  k get nodes
+NAME                    STATUS   ROLES           AGE   VERSION
+cluster1-controlplane   Ready    control-plane   51m   v1.24.0
+cluster1-node01         Ready    <none>          50m   v1.24.0
+
+student-node ~ ➜  kubectl config use-context cluster2
+Switched to context "cluster2".
+
+student-node ~ ➜  k get nodes
+NAME                    STATUS   ROLES           AGE   VERSION
+cluster2-controlplane   Ready    control-plane   51m   v1.24.0
+cluster2-node01         Ready    <none>          51m   v1.24.0
+
+student-node ~ ➜  
+```
