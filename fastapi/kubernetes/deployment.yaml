@@ -5,7 +5,7 @@ metadata:
   labels:
     app: fast-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: fast-api
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fast-api
-        image: jimcr/fast-api-k8s:0.0.1
+        image: jimcr/fast-api-k8s:0.0.4
         ports:
         - containerPort: 80
         resources:
@@ -25,3 +25,6 @@ spec:
             memory: 300Mi
           limits:
             memory: 400Mi
+        env:
+          - name: ENV
+            value: "CIVO"
