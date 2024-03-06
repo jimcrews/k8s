@@ -1,0 +1,1 @@
+You can list all available API resources with the command `kubectl api-resources` from any Kubernetes cluster

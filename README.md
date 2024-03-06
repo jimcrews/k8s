@@ -200,3 +200,7 @@ cluster2-node01         Ready    <none>          51m   v1.24.0
 
 student-node ~ ➜  
 ```
+
+
+# NodePort Service
+The range of valid ports is 30000-32767
