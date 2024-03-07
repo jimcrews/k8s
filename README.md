@@ -92,14 +92,10 @@ Add 'nodeSelector' to the pod definition file. The key value pair in nodeSelecto
 You must have first labeled your nodes before creating this pod - `k label nodes node01 size=Large`
 
 ## Node Affinity
-Ensure pods are hosted on specific nodes using more advanced expressions than Node Selectors. Such are using selectors using 'Or' or 'Not'.
+Ensure pods are hosted on specific nodes by what labels exist on the nodes.
 types of node affinity: 
  - `requiredDuringSchedulingIgnoredDuringExecution`
  - `preferredDuringSchedulingIgnoredDuringExecution`
-
- 'During Scheduling' is the state where a pod does not exist and is created for the first time. 'Required' = the scheduler will mandate the pod be placed on the correct node, otherwise the pod wont be scheduled. 'Preferred' is best effort. The pod will be place anywhere if no labael is found.
-
- 'During Execution' is the state where the pod has been running and a change has been made that effects node affinity. 'Ignored' = no changes will be made.
 
 
 ## Secrets
