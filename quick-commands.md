@@ -21,3 +21,12 @@
 ## Add Label to Node
 
 `k label node node01 color=blue`
+
+## Edit pod, deployment
+
+`k edit pod frontend`
+`k edit deployment frontend`
+
+## Replace 
+
+`kubectl replace --force -f ./pod.json`
