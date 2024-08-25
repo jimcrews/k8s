@@ -1,10 +1,14 @@
 ### Create Pod without yaml
 new pod called nginx, using image from Dockerhub 'nginx'
-``` k run nginx --image=nginx ```
+
+``` shell
+k run nginx --image=nginx
+k run redis --image=redis -n=finance
+```
 
 ### Which node are the pods running
 you can "describe" all pods one by one, or,
-``` k get pods -o wide ```
+`k get pods -o wide`
 
 ### Create Pod using yaml
 
@@ -37,4 +41,6 @@ k apply -f pod.yaml
 k get pods
 k describe pods nginx
 k delete pod nginx
+
+k replace --force -f pod.yaml
 ```

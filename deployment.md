@@ -1,6 +1,9 @@
-Create Deployment
+## Create Deployment
 ```
-kubectl create deployment front-end-deploy --image=nginx
+kubectl create deployment nginx --image=nginx
+kubectl create deployment nginx --image=nginx --replicas=4
+
+k create deploy webapp --image=kodekloud/webapp-color --replicas=3
 ```
 
 ```
@@ -15,4 +18,11 @@ Make necessary changes to the file (for example, adding more replicas) and then 
 
 ```
 kubectl apply -f front-end-deploy.yaml
+```
+
+## Edit
+
+```
+k edit deployment nginx
+k scale deployment nginx --replicas=5
 ```
