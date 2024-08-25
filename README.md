@@ -44,21 +44,21 @@ kubectl run NAME --image=IMAGE --dry-run=client -o yaml
 ```
 kubectl create deployment NAME --image=IMAGE
 
-kubectl create deployment NAME --image=IMAGE --dry-run=client -o yaml
+k create deployment NAME --image=IMAGE --dry-run=client -o yaml
 ```
 
 Make necessary changes to the file (for example, adding more replicas) and then create the deployment. `kubectl create -f nginx-deployment.yaml`
 
 ## Edit a pod or export to yaml
 ```
-kubectl edit pod <pod name>
+k edit pod <pod name>
 
-kubectl get pod webapp -o yaml > my-new-pod.yaml
+k get pod webapp -o yaml > my-new-pod.yaml
 ```
 
 ## Replace a pod using config
 ```
-kubectl replace --force -f /tmp/kubectl-edit-19233122.yaml
+k replace --force -f /tmp/kubectl-edit-19233122.yaml
 ```
 
 ### Label a node
@@ -72,14 +72,24 @@ Taints and Tolerations are only meant to restrict nodes from accepting certain p
  - Tolerations are set on Pods
 
 ```
-kubectl taint nodes node01 spray=mortein:NoSchedule
+k taint nodes node01 spray=mortein:NoSchedule
 ```
 or to remove taint (add '-' to the end)
 ```
-kubectl taint nodes node01 spray=mortein:NoSchedule-
-kubectl taint nodes controlplane node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes node01 spray=mortein:NoSchedule-
+k taint nodes controlplane node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 Tolerations are added to the pod spec file.
+This toleration "match" the taint created above, so this pod would be able to schedule onto this node:
+
+``` yaml
+spec:
+  tolerations:
+  - key: "spray"
+    operator: "Equal"
+    value: "mortein"
+    effect: "NoSchedule"
+```
 
 Q: Do any Taints exist on node01
 
@@ -100,8 +110,8 @@ types of node affinity:
 
 ## Secrets
 ```
-kubectl create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
-kubectl create secret generic app-secret --from-file=app_secret.properties
+k create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+k create secret generic app-secret --from-file=app_secret.properties
 ```
 
 
