@@ -43,4 +43,8 @@ k describe pods nginx
 k delete pod nginx
 
 k replace --force -f pod.yaml
+
+# extract the pod definition to YAML
+
+kubectl get pod webapp -o yaml > my-new-pod.yaml
 ```
