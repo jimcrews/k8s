@@ -48,3 +48,24 @@ k replace --force -f pod.yaml
 
 kubectl get pod webapp -o yaml > my-new-pod.yaml
 ```
+
+
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: static-busybox
+  name: static-busybox
+spec:
+  containers:
+  - image: busybox
+    name: static-busybox
+    command: ['sleep']
+    args: ['1000']
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+```

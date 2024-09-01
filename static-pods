@@ -1,0 +1,52 @@
+pod definition locations:
+```
+/etc/kubernetes/manifests
+```
+
+location is configured as an option based in to the kublet.service:
+```
+-- pod-manifest-path=/etc/kubernetes/manifests
+```
+
+or
+
+```
+--config=kubeconfig.yaml
+```
+
+kubeconfig.yaml
+```
+staticPodPath: /etc/Kubernetes/manifests
+```
+
+
+
+# Static Pods commands
+from the worker node:
+```
+docker ps
+```
+
+if there is a master node:
+```
+k get pods
+```
+
+### get kubelet config
+``` shell
+systemctl cat kubelet
+Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
+```
+
+or just know the config is here:
+``` shell
+cat /var/lib/kubelet/config.yaml
+```
+
+``` shell
+cat /var/lib/kubelet/config.yaml 
+
+
+staticPodPath: /etc/just-to-mess-with-you
+```
+
