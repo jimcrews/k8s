@@ -49,6 +49,9 @@ k replace --force -f pod.yaml
 kubectl get pod webapp -o yaml > my-new-pod.yaml
 ```
 
+Docker commands to pod commands:
+ - Docker: ENTRYPOINT ["sleep"] > POD: command: ["sleep"]
+ - Docker: CMD ["5"] > POD: args: ["10"]
 
 ``` yaml
 apiVersion: v1
@@ -65,6 +68,25 @@ spec:
     command: ['sleep']
     args: ['1000']
     resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+```
+
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: webapp-green
+  name: webapp-green
+spec:
+  containers:
+  - image: kodekloud/webapp-color
+    name: webapp-green
+    resources: {}
+    args: ["--color","green"]
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
