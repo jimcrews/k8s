@@ -26,3 +26,29 @@ kubectl apply -f front-end-deploy.yaml
 k edit deployment nginx
 k scale deployment nginx --replicas=5
 ```
+
+### Summarize Commands
+
+Create
+```
+k create -f deployment-definition.yaml
+```
+Get
+```
+k get deploy
+```
+Update
+```
+k apply -f deployent-definition.yaml
+k set image deployment/my-app-deployment nginx=nginx:1.9.1
+k set image deployment/frontend simple-webapp=kodekloud/webapp-color:v2
+```
+Status
+```
+k rollout status deployment/myapp-deployment
+k rollout history deployent/myapp-deployment
+```
+Rollback
+```
+k rollout undo deployment/myapp-deployment
+```
